@@ -89,6 +89,8 @@ defmodule PhoenixSwagger do
             {:param, [in: path, name: name, type: valid_type?(type), required: false, description: description]}
           {:parameter, [path, name, type]} ->
             {:param, [in: path, name: name, type: valid_type?(type), required: false, description: ""]}
+          {:parameter, arguments} ->
+            {:param, arguments}
           _ ->
             []
         end
