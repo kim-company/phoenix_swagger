@@ -115,8 +115,7 @@ defmodule Mix.Tasks.Phoenix.Swagger.Generate do
   @doc false
   defp collect_host(swagger_map, app_name, app_mod) do
     endpoint_config = Application.get_env(app_name,Module.concat([app_mod, :Endpoint]))
-    [{:host, host}] = Keyword.get(endpoint_config, :url, [{:host, "localhost"}])
-    [{:port, port}] = Keyword.get(endpoint_config, :http, [{:port, @default_port}])
+    [{:host, host}, {:port, port}] = Keyword.get(endpoint_config, :url, [{:host, "localhost"}, {:port, @default_port}])
     https = Keyword.get(endpoint_config, :https, nil)
     swagger_map = Map.put_new(swagger_map, :host, host <> ":" <> to_string(port))
     case https do
