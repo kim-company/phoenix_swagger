@@ -127,7 +127,7 @@ defmodule Mix.Tasks.Phoenix.Swagger.Generate do
       |> Keyword.get(:port, @default_port)
 
     https = Keyword.get(endpoint_config, :https, nil)
-    swagger_map = Map.put_new(swagger_map, :host, host <> ":" <> to_string(port))
+    swagger_map = Map.put_new(swagger_map, :host, host <> ":" <> port_to_string(port))
     case https do
       nil ->
         swagger_map
@@ -135,6 +135,12 @@ defmodule Mix.Tasks.Phoenix.Swagger.Generate do
         Map.put_new(swagger_map, :schemes, ["https", "http"])
     end
   end
+
+  @doc false
+  defp port_to_string({:system, env_var}), do: port_to_string(System.get_env(env_var))
+  defp port_to_string(port) when is_integer(port), do: to_string(port)
+  defp port_to_string(port) when is_binary(port), do: port
+
 
   @doc false
   defp collect_info(swagger_map) do
